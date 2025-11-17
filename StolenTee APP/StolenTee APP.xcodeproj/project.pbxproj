@@ -1,0 +1,635 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DAAA7B032ECAD3A3008E0202 /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = DAAA7B022ECAD3A3008E0202 /* StripePaymentSheet */; };
+		DAAA7B062ECAD3AD008E0202 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DAAA7B052ECAD3AD008E0202 /* Supabase */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DAAA7A8A2ECAD193008E0202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAAA7A742ECAD191008E0202 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAAA7A7B2ECAD191008E0202;
+			remoteInfo = "StolenTee APP";
+		};
+		DAAA7A942ECAD193008E0202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAAA7A742ECAD191008E0202 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAAA7A7B2ECAD191008E0202;
+			remoteInfo = "StolenTee APP";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DAAA7A7C2ECAD191008E0202 /* StolenTee APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StolenTee APP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAAA7A892ECAD193008E0202 /* StolenTee APPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StolenTee APPTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAAA7A932ECAD193008E0202 /* StolenTee APPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StolenTee APPUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DAAA7B072ECAD473008E0202 /* Exceptions for "StolenTee APP" folder in "StolenTee APP" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DAAA7A7B2ECAD191008E0202 /* StolenTee APP */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		DAAA7A7E2ECAD191008E0202 /* StolenTee APP */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DAAA7B072ECAD473008E0202 /* Exceptions for "StolenTee APP" folder in "StolenTee APP" target */,
+			);
+			path = "StolenTee APP";
+			sourceTree = "<group>";
+		};
+		DAAA7A8C2ECAD193008E0202 /* StolenTee APPTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "StolenTee APPTests";
+			sourceTree = "<group>";
+		};
+		DAAA7A962ECAD193008E0202 /* StolenTee APPUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "StolenTee APPUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAAA7A792ECAD191008E0202 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAAA7B062ECAD3AD008E0202 /* Supabase in Frameworks */,
+				DAAA7B032ECAD3A3008E0202 /* StripePaymentSheet in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A862ECAD193008E0202 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A902ECAD193008E0202 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DAAA7A732ECAD191008E0202 = {
+			isa = PBXGroup;
+			children = (
+				DAAA7A7E2ECAD191008E0202 /* StolenTee APP */,
+				DAAA7A8C2ECAD193008E0202 /* StolenTee APPTests */,
+				DAAA7A962ECAD193008E0202 /* StolenTee APPUITests */,
+				DAAA7A7D2ECAD191008E0202 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DAAA7A7D2ECAD191008E0202 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAAA7A7C2ECAD191008E0202 /* StolenTee APP.app */,
+				DAAA7A892ECAD193008E0202 /* StolenTee APPTests.xctest */,
+				DAAA7A932ECAD193008E0202 /* StolenTee APPUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DAAA7A7B2ECAD191008E0202 /* StolenTee APP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAAA7A9D2ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APP" */;
+			buildPhases = (
+				DAAA7A782ECAD191008E0202 /* Sources */,
+				DAAA7A792ECAD191008E0202 /* Frameworks */,
+				DAAA7A7A2ECAD191008E0202 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DAAA7A7E2ECAD191008E0202 /* StolenTee APP */,
+			);
+			name = "StolenTee APP";
+			packageProductDependencies = (
+				DAAA7B022ECAD3A3008E0202 /* StripePaymentSheet */,
+				DAAA7B052ECAD3AD008E0202 /* Supabase */,
+			);
+			productName = "StolenTee APP";
+			productReference = DAAA7A7C2ECAD191008E0202 /* StolenTee APP.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DAAA7A882ECAD193008E0202 /* StolenTee APPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAAA7AA02ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APPTests" */;
+			buildPhases = (
+				DAAA7A852ECAD193008E0202 /* Sources */,
+				DAAA7A862ECAD193008E0202 /* Frameworks */,
+				DAAA7A872ECAD193008E0202 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAAA7A8B2ECAD193008E0202 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DAAA7A8C2ECAD193008E0202 /* StolenTee APPTests */,
+			);
+			name = "StolenTee APPTests";
+			packageProductDependencies = (
+			);
+			productName = "StolenTee APPTests";
+			productReference = DAAA7A892ECAD193008E0202 /* StolenTee APPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DAAA7A922ECAD193008E0202 /* StolenTee APPUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAAA7AA32ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APPUITests" */;
+			buildPhases = (
+				DAAA7A8F2ECAD193008E0202 /* Sources */,
+				DAAA7A902ECAD193008E0202 /* Frameworks */,
+				DAAA7A912ECAD193008E0202 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAAA7A952ECAD193008E0202 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DAAA7A962ECAD193008E0202 /* StolenTee APPUITests */,
+			);
+			name = "StolenTee APPUITests";
+			packageProductDependencies = (
+			);
+			productName = "StolenTee APPUITests";
+			productReference = DAAA7A932ECAD193008E0202 /* StolenTee APPUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAAA7A742ECAD191008E0202 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					DAAA7A7B2ECAD191008E0202 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					DAAA7A882ECAD193008E0202 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = DAAA7A7B2ECAD191008E0202;
+					};
+					DAAA7A922ECAD193008E0202 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = DAAA7A7B2ECAD191008E0202;
+					};
+				};
+			};
+			buildConfigurationList = DAAA7A772ECAD191008E0202 /* Build configuration list for PBXProject "StolenTee APP" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DAAA7A732ECAD191008E0202;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DAAA7B012ECAD3A3008E0202 /* XCRemoteSwiftPackageReference "stripe-ios" */,
+				DAAA7B042ECAD3AD008E0202 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DAAA7A7D2ECAD191008E0202 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAAA7A7B2ECAD191008E0202 /* StolenTee APP */,
+				DAAA7A882ECAD193008E0202 /* StolenTee APPTests */,
+				DAAA7A922ECAD193008E0202 /* StolenTee APPUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAAA7A7A2ECAD191008E0202 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A872ECAD193008E0202 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A912ECAD193008E0202 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DAAA7A782ECAD191008E0202 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A852ECAD193008E0202 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAAA7A8F2ECAD193008E0202 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DAAA7A8B2ECAD193008E0202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAAA7A7B2ECAD191008E0202 /* StolenTee APP */;
+			targetProxy = DAAA7A8A2ECAD193008E0202 /* PBXContainerItemProxy */;
+		};
+		DAAA7A952ECAD193008E0202 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAAA7A7B2ECAD191008E0202 /* StolenTee APP */;
+			targetProxy = DAAA7A942ECAD193008E0202 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DAAA7A9B2ECAD193008E0202 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DAAA7A9C2ECAD193008E0202 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DAAA7A9E2ECAD193008E0202 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "StolenTee APP/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APP";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DAAA7A9F2ECAD193008E0202 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "StolenTee APP/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APP";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DAAA7AA12ECAD193008E0202 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APPTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StolenTee APP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StolenTee APP";
+			};
+			name = Debug;
+		};
+		DAAA7AA22ECAD193008E0202 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APPTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StolenTee APP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StolenTee APP";
+			};
+			name = Release;
+		};
+		DAAA7AA42ECAD193008E0202 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APPUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "StolenTee APP";
+			};
+			name = Debug;
+		};
+		DAAA7AA52ECAD193008E0202 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "stolentee.com.StolenTee-APPUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "StolenTee APP";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAAA7A772ECAD191008E0202 /* Build configuration list for PBXProject "StolenTee APP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAAA7A9B2ECAD193008E0202 /* Debug */,
+				DAAA7A9C2ECAD193008E0202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAAA7A9D2ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAAA7A9E2ECAD193008E0202 /* Debug */,
+				DAAA7A9F2ECAD193008E0202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAAA7AA02ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAAA7AA12ECAD193008E0202 /* Debug */,
+				DAAA7AA22ECAD193008E0202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAAA7AA32ECAD193008E0202 /* Build configuration list for PBXNativeTarget "StolenTee APPUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAAA7AA42ECAD193008E0202 /* Debug */,
+				DAAA7AA52ECAD193008E0202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DAAA7B012ECAD3A3008E0202 /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 25.0.1;
+			};
+		};
+		DAAA7B042ECAD3AD008E0202 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DAAA7B022ECAD3A3008E0202 /* StripePaymentSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAAA7B012ECAD3A3008E0202 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentSheet;
+		};
+		DAAA7B052ECAD3AD008E0202 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAAA7B042ECAD3AD008E0202 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DAAA7A742ECAD191008E0202 /* Project object */;
+}

@@ -2,10 +2,10 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var designs: [SavedDesign] = []
+    @State private var designs: [Design] = []
     @State private var isLoading = false
     @State private var showingDeleteConfirmation = false
-    @State private var designToDelete: SavedDesign?
+    @State private var designToDelete: Design?
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: ToastView.ToastType = .info
@@ -58,21 +58,21 @@ struct DashboardView: View {
 
     private var statsSection: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
-            if let user = authViewModel.user {
+            if let user = authViewModel.currentUser {
                 Text("Welcome back, \(user.name ?? "Designer")!")
                     .font(Theme.Typography.headlineSmall)
                     .foregroundColor(Theme.Colors.text)
             }
 
             HStack(spacing: Theme.Spacing.md) {
-                StatCard(
+                DashboardStatCard(
                     title: "Saved Designs",
                     value: "\(designs.count)",
                     icon: "paintbrush.fill",
                     color: .purple
                 )
 
-                StatCard(
+                DashboardStatCard(
                     title: "Orders",
                     value: "0",
                     icon: "shippingbox.fill",
@@ -171,80 +171,18 @@ struct DashboardView: View {
     private var designsGrid: some View {
         LazyVGrid(columns: Theme.Layout.gridColumns, spacing: Theme.Spacing.md) {
             ForEach(designs) { design in
-                NavigationLink(destination: designDetailView(for: design)) {
-                    DesignCard(
-                        design: design,
-                        onEdit: {
-                            // Navigation handled by NavigationLink wrapper
-                        },
-                        onDelete: {
-                            designToDelete = design
-                            showingDeleteConfirmation = true
-                        }
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
-        }
-    }
-
-    // MARK: - Design Detail View Helper
-
-    @ViewBuilder
-    private func designDetailView(for design: SavedDesign) -> some View {
-        // For now, show the design details or a message
-        // In the future, this could load the design into the customizer
-        VStack(spacing: Theme.Spacing.lg) {
-            if let thumbnailUrl = design.thumbnailUrl, let url = URL(string: thumbnailUrl) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(maxHeight: 400)
-            }
-
-            VStack(spacing: Theme.Spacing.md) {
-                Text(design.name)
-                    .font(Theme.Typography.headlineLarge)
-
-                Text("Product ID: \(design.productId)")
-                    .font(Theme.Typography.bodyMedium)
-                    .foregroundColor(Theme.Colors.textSecondary)
-
-                if let createdAt = design.createdAt {
-                    Text("Created: \(createdAt, style: .date)")
-                        .font(Theme.Typography.bodyMedium)
-                        .foregroundColor(Theme.Colors.textSecondary)
-                }
-
-                // Action buttons
-                VStack(spacing: Theme.Spacing.sm) {
-                    NavigationLink(destination: ProductsView()) {
-                        Text("Create Similar Design")
-                            .fontWeight(.semibold)
-                    }
-                    .primaryButtonStyle()
-
-                    Button(action: {
+                DesignCard(
+                    design: design,
+                    onEdit: {
+                        // Navigate to customizer with this design
+                    },
+                    onDelete: {
                         designToDelete = design
                         showingDeleteConfirmation = true
-                    }) {
-                        Text("Delete Design")
-                            .foregroundColor(Theme.Colors.error)
                     }
-                    .secondaryButtonStyle()
-                }
-                .padding(.horizontal, Theme.Spacing.screenPadding)
+                )
             }
-            .padding(Theme.Spacing.screenPadding)
-
-            Spacer()
         }
-        .navigationTitle("Design Details")
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     // MARK: - Helper Methods
@@ -257,7 +195,7 @@ struct DashboardView: View {
         isLoading = false
     }
 
-    private func deleteDesign(_ design: SavedDesign) {
+    private func deleteDesign(_ design: Design) {
         withAnimation {
             designs.removeAll { $0.id == design.id }
         }
@@ -272,7 +210,7 @@ struct DashboardView: View {
 
 // MARK: - Stat Card
 
-struct StatCard: View {
+struct DashboardStatCard: View {
     let title: String
     let value: String
     let icon: String

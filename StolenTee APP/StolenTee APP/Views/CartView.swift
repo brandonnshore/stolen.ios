@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartViewModel: CartViewModel
+    @Environment(\.navigateToProducts) var navigateToProducts
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: ToastView.ToastType = .info
@@ -25,24 +26,8 @@ struct CartView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        VStack {
-            Spacer()
-            EmptyStateView(
-                icon: "cart",
-                title: "Your cart is empty",
-                message: "Add some items to get started with your custom designs!",
-                actionTitle: "Browse Products",
-                action: {
-                    // Navigation handled by NavigationLink below
-                }
-            )
-            NavigationLink(destination: ProductsView()) {
-                Text("Browse Products")
-                    .fontWeight(.semibold)
-            }
-            .primaryButtonStyle()
-            .padding(.horizontal, Theme.Spacing.screenPadding)
-            Spacer()
+        EmptyStateView.emptyCart {
+            navigateToProducts()
         }
     }
 
@@ -72,7 +57,7 @@ struct CartView: View {
 
     private var headerInfo: some View {
         HStack {
-            Text("\(cartViewModel.totalItems) \(cartViewModel.totalItems == 1 ? "item" : "items")")
+            Text("\(cartViewModel.itemCount) \(cartViewModel.itemCount == 1 ? "item" : "items")")
                 .font(Theme.Typography.bodyMedium)
                 .foregroundColor(Theme.Colors.textSecondary)
 
@@ -102,15 +87,14 @@ struct CartView: View {
                 CartItemRow(
                     item: item,
                     onEdit: {
-                        // User can view the design but not edit after adding to cart
-                        // This is consistent with most e-commerce flows
+                        // Navigate to customizer to edit
                     },
                     onIncrement: {
-                        cartViewModel.updateQuantity(for: item.id, quantity: item.quantity + 1)
+                        cartViewModel.updateQuantity(item: item, quantity: item.quantity + 1)
                     },
                     onDecrement: {
                         if item.quantity > 1 {
-                            cartViewModel.updateQuantity(for: item.id, quantity: item.quantity - 1)
+                            cartViewModel.updateQuantity(item: item, quantity: item.quantity - 1)
                         }
                     }
                 )
@@ -121,7 +105,7 @@ struct CartView: View {
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
                         withAnimation {
-                            cartViewModel.removeItem(item.id)
+                            cartViewModel.removeItem(item)
                         }
                         let generator = UINotificationFeedbackGenerator()
                         generator.notificationOccurred(.success)
@@ -129,6 +113,14 @@ struct CartView: View {
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
+                }
+                .swipeActions(edge: .leading) {
+                    Button {
+                        // Edit action
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    .tint(Theme.Colors.accent)
                 }
             }
         }
@@ -153,7 +145,7 @@ struct CartView: View {
 
                 Spacer()
 
-                Text("$\(String(format: "%.2f", cartViewModel.total))")
+                Text("$\(String(format: "%.2f", cartViewModel.subtotal))")
                     .font(Theme.Typography.titleLarge)
                     .fontWeight(.bold)
             }
@@ -200,16 +192,24 @@ struct CartItemRow: View {
 
             // Product Details
             VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
-                Text(item.productTitle)
+                Text(item.product.title)
                     .font(Theme.Typography.titleMedium)
                     .foregroundColor(Theme.Colors.text)
                     .lineLimit(2)
 
                 // Variant Chips
                 HStack(spacing: Theme.Spacing.xs) {
-                    VariantChip(text: item.variantColor)
-                    VariantChip(text: item.variantSize)
+                    VariantChip(text: item.variant.color)
+                    VariantChip(text: item.variant.size)
                 }
+
+                // Edit Link
+                Button(action: onEdit) {
+                    Text("Edit Design →")
+                        .font(Theme.Typography.labelSmall)
+                        .foregroundColor(Theme.Colors.accent)
+                }
+                .buttonStyle(PlainButtonStyle())
 
                 Spacer()
 

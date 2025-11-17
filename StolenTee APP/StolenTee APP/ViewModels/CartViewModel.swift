@@ -14,19 +14,6 @@ struct CartItem: Identifiable, Codable {
     var totalPrice: Double {
         unitPrice * Double(quantity)
     }
-
-    // Computed properties for convenience
-    var productTitle: String {
-        product.title
-    }
-
-    var variantColor: String {
-        variant.color
-    }
-
-    var variantSize: String {
-        variant.size
-    }
 }
 
 @MainActor
@@ -43,15 +30,6 @@ class CartViewModel: ObservableObject {
     // MARK: - Computed Properties
     var subtotal: Double {
         items.reduce(0) { $0 + $1.totalPrice }
-    }
-
-    var total: Double {
-        // For now, total equals subtotal. In the future, add shipping and tax
-        subtotal
-    }
-
-    var totalItems: Int {
-        items.reduce(0) { $0 + $1.quantity }
     }
 
     var itemCount: Int {
@@ -91,30 +69,9 @@ class CartViewModel: ObservableObject {
         saveCart()
     }
 
-    func removeItem(_ itemId: String) {
-        items.removeAll { $0.id == itemId }
-        saveCart()
-    }
-
     // MARK: - Update Quantity
     func updateQuantity(item: CartItem, quantity: Int) {
         if let index = items.firstIndex(where: { $0.id == item.id }) {
-            items[index] = CartItem(
-                id: item.id,
-                variant: item.variant,
-                product: item.product,
-                quantity: quantity,
-                customSpec: item.customSpec,
-                mockupUrl: item.mockupUrl,
-                unitPrice: item.unitPrice
-            )
-            saveCart()
-        }
-    }
-
-    func updateQuantity(for itemId: String, quantity: Int) {
-        if let index = items.firstIndex(where: { $0.id == itemId }) {
-            let item = items[index]
             items[index] = CartItem(
                 id: item.id,
                 variant: item.variant,

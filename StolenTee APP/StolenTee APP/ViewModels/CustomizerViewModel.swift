@@ -27,17 +27,8 @@ class CustomizerViewModel: ObservableObject {
     @Published var extractionProgress: String = ""
     @Published var extractionPercent: Double = 0.0
     @Published var errorMessage: String?
-    @Published var selectedColor: String = ""
-    @Published var selectedSize: String = ""
-    @Published var quantity: Int = 1
-
-    let product: Product
 
     private var pollingTask: Task<Void, Never>?
-
-    init(product: Product) {
-        self.product = product
-    }
 
     // MARK: - Upload Shirt Photo for Extraction
     func uploadShirtPhoto(_ image: UIImage) async {
