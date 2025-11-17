@@ -74,6 +74,8 @@ struct Asset: Codable, Identifiable {
     let metadata: [String: CustomAnyCodable]?
     let createdAt: Date?
     let updatedAt: Date?
+    let kind: String?
+    let jobId: String?
 
     enum CodingKeys: String, CodingKey {
         case id, hash, width, height, dpi, metadata
@@ -85,6 +87,8 @@ struct Asset: Codable, Identifiable {
         case originalName = "original_name"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
+        case kind
+        case jobId = "job_id"
     }
 }
 
@@ -123,7 +127,7 @@ struct UploadResponse: Codable {
 
 struct ShirtPhotoUploadResponse: Codable {
     let asset: Asset
-    let jobId: String
+    let jobId: String?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -137,19 +141,19 @@ struct ShirtPhotoUploadResponse: Codable {
         } else {
             // Direct format {asset: ..., jobId: ...}
             self.asset = try container.decode(Asset.self, forKey: .asset)
-            self.jobId = try container.decode(String.self, forKey: .jobId)
+            self.jobId = try? container.decode(String.self, forKey: .jobId)
         }
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(asset, forKey: .asset)
-        try container.encode(jobId, forKey: .jobId)
+        try container.encodeIfPresent(jobId, forKey: .jobId)
     }
 
     private struct ShirtPhotoDataWrapper: Codable {
         let asset: Asset
-        let jobId: String
+        let jobId: String?
 
         enum CodingKeys: String, CodingKey {
             case asset

@@ -22,7 +22,7 @@ class UploadService {
     }
 
     // MARK: - Upload Shirt Photo for Extraction
-    func uploadShirtPhoto(image: UIImage) async throws -> (asset: Asset, jobId: String) {
+    func uploadShirtPhoto(image: UIImage) async throws -> (asset: Asset, jobId: String?) {
         guard let imageData = image.jpegData(compressionQuality: 0.9) else {
             throw APIError.serverError("Failed to convert image to data")
         }
