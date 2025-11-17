@@ -571,38 +571,59 @@ struct CustomizerView: View {
     }
 
     private func updateBackgroundImage() {
-        // Create a placeholder t-shirt background image
-        // Since actual t-shirt images are not available, we'll create a simple colored rectangle
-        // that represents the t-shirt based on the selected color
+        // Load actual product image from Supabase
+        // product.images array: [0] = front, [1] = back, [2] = neck (optional)
+        let imageIndex = viewModel.currentView == .back ? 1 : 0
 
+        guard product.images.count > imageIndex,
+              let imageURL = URL(string: product.images[imageIndex]) else {
+            // Fallback to placeholder if no image available
+            createPlaceholderBackground()
+            return
+        }
+
+        // Load image asynchronously
+        Task {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: imageURL)
+                if let loadedImage = UIImage(data: data) {
+                    await MainActor.run {
+                        backgroundImage = loadedImage
+                        updateCanvasBounds(for: loadedImage.size)
+                    }
+                }
+            } catch {
+                print("Failed to load product image: \(error)")
+                createPlaceholderBackground()
+            }
+        }
+    }
+
+    private func createPlaceholderBackground() {
         let backgroundColor: UIColor
         switch selectedColor.lowercased() {
         case "black":
             backgroundColor = .black
         case "navy":
             backgroundColor = UIColor(red: 0, green: 0.12, blue: 0.25, alpha: 1.0)
-        default: // white
+        default:
             backgroundColor = .white
         }
 
-        // Create a simple t-shirt shaped background
         let size = CGSize(width: 600, height: 700)
         let renderer = UIGraphicsImageRenderer(size: size)
 
         let image = renderer.image { context in
-            // Fill with background color
             backgroundColor.setFill()
             let rect = CGRect(origin: .zero, size: size)
             context.fill(rect)
 
-            // Add a border so white shirts are visible
             if selectedColor.lowercased() == "white" {
                 context.cgContext.setStrokeColor(UIColor.black.withAlphaComponent(0.2).cgColor)
                 context.cgContext.setLineWidth(2)
                 context.cgContext.stroke(rect)
             }
 
-            // Add "FRONT" or "BACK" label
             let label = viewModel.currentView == .back ? "BACK" : "FRONT"
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 24, weight: .light),
@@ -620,9 +641,11 @@ struct CustomizerView: View {
         }
 
         backgroundImage = image
+        updateCanvasBounds(for: size)
+    }
 
-        // Mobile-optimized canvas sizing
-        let aspectRatio = size.width / size.height
+    private func updateCanvasBounds(for imageSize: CGSize) {
+        let aspectRatio = imageSize.width / imageSize.height
         let screenWidth = UIScreen.main.bounds.width
         let maxWidth = min(screenWidth * 0.9, CanvasConfig.containerMaxWidth)
         var width = maxWidth
