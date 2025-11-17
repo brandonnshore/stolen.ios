@@ -105,6 +105,11 @@ struct UploadResponse: Codable {
         }
     }
 
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(asset, forKey: .asset)
+    }
+
     private struct UploadDataWrapper: Codable {
         let asset: Asset
     }
@@ -134,6 +139,12 @@ struct ShirtPhotoUploadResponse: Codable {
             self.asset = try container.decode(Asset.self, forKey: .asset)
             self.jobId = try container.decode(String.self, forKey: .jobId)
         }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(asset, forKey: .asset)
+        try container.encode(jobId, forKey: .jobId)
     }
 
     private struct ShirtPhotoDataWrapper: Codable {
@@ -253,6 +264,12 @@ struct JobResponse: Codable {
             self.job = try container.decode(Job.self, forKey: .jobKey)
             self.assets = try container.decodeIfPresent([Asset].self, forKey: .assets)
         }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(job, forKey: .jobKey)
+        try container.encodeIfPresent(assets, forKey: .assets)
     }
 
     enum CodingKeys: String, CodingKey {

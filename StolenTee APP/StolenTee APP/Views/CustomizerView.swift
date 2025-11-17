@@ -127,17 +127,16 @@ struct CustomizerView: View {
         }
     }
 
-    // MARK: - 1. Canvas Section (Mobile - Prominent & Interactive)
+    // MARK: - 1. Canvas Section (Edge-to-Edge, iOS Glass Morphism)
     private var canvasSection: some View {
-        VStack(spacing: 16) {
-            // Large canvas area with t-shirt and logos
+        GeometryReader { geometry in
             ZStack {
-                Color(UIColor.systemGray6)
+                // Edge-to-edge background
+                Color(UIColor.systemGray6).ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    Spacer()
-
                     if let bgImage = backgroundImage {
+                        // Canvas with product mockup - fills screen width
                         DesignCanvasView(
                             backgroundImage: bgImage,
                             layers: $canvasLayers,
@@ -148,62 +147,71 @@ struct CustomizerView: View {
                             }
                         )
                         .frame(width: canvasBounds.width, height: canvasBounds.height)
+                        .clipped()
                     } else {
                         ProgressView("Loading canvas...")
-                            .frame(height: 400)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+                // Floating instructions at top (if editing)
+                if !canvasLayers.isEmpty && selectedLayerId != nil {
+                    VStack {
+                        Text("Drag • Pinch • Rotate • Tap away to finish")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(.ultraThinMaterial)
+                            .background(Color.black.opacity(0.3))
+                            .cornerRadius(20)
+                            .padding(.top, 16)
+                        Spacer()
+                    }
+                }
+
+                // iOS Glass Morphism View Selector at bottom
+                VStack {
                     Spacer()
 
-                    // User instructions
-                    if !canvasLayers.isEmpty {
-                        if selectedLayerId != nil {
-                            Text("Drag • Pinch • Rotate • Tap away to finish")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(Color.black.opacity(0.8))
-                                .cornerRadius(20)
-                                .padding(.bottom, 12)
-                        } else {
-                            Text("Tap artwork to edit")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(Color.gray.opacity(0.6))
-                                .cornerRadius(20)
-                                .padding(.bottom, 12)
-                        }
-                    }
-
-                    // View switcher - Front/Back/Neck (Compact style at bottom)
                     HStack(spacing: 0) {
                         ForEach([CanvasView.front, CanvasView.back, CanvasView.neck], id: \.self) { view in
                             Button {
-                                viewModel.currentView = view
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    viewModel.currentView = view
+                                }
                             } label: {
                                 Text(view.displayName.uppercased())
-                                    .font(.caption)
-                                    .fontWeight(viewModel.currentView == view ? .bold : .medium)
-                                    .foregroundColor(viewModel.currentView == view ? .white : .gray)
+                                    .font(.system(size: 12, weight: viewModel.currentView == view ? .semibold : .medium))
+                                    .foregroundColor(viewModel.currentView == view ? .primary : .secondary)
                                     .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 8)
-                                    .background(viewModel.currentView == view ? Color.black : Color.clear)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        ZStack {
+                                            if viewModel.currentView == view {
+                                                // Active tab with subtle background
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(Color.white.opacity(0.8))
+                                                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                                            }
+                                        }
+                                    )
+                                    .contentShape(Rectangle())
                             }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .background(Color.white.opacity(0.95))
-                    .cornerRadius(8)
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, 16)
+                    .padding(4)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(14)
+                    .shadow(color: Color.black.opacity(0.12), radius: 16, x: 0, y: 4)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                 }
-                .padding(.vertical, 20)
             }
-            .frame(height: 480)
-            .cornerRadius(20)
         }
+        .frame(height: UIScreen.main.bounds.width * 1.3) // Aspect ratio for t-shirt
     }
 
     // MARK: - 2. Upload Section (Mobile-Optimized)
@@ -673,12 +681,16 @@ struct CustomizerView: View {
     private func updateCanvasBounds(for imageSize: CGSize) {
         let aspectRatio = imageSize.width / imageSize.height
         let screenWidth = UIScreen.main.bounds.width
-        let maxWidth = min(screenWidth * 0.9, CanvasConfig.containerMaxWidth)
-        var width = maxWidth
+
+        // Edge-to-edge: Use full screen width
+        var width = screenWidth
         var height = width / aspectRatio
 
-        if height > CanvasConfig.containerMaxHeight {
-            height = CanvasConfig.containerMaxHeight
+        // Allow more height for natural t-shirt proportions
+        let maxHeight = screenWidth * 1.4  // Taller aspect ratio for t-shirts
+
+        if height > maxHeight {
+            height = maxHeight
             width = height * aspectRatio
         }
 
