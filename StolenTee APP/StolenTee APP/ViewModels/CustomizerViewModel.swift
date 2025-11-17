@@ -39,6 +39,12 @@ class CustomizerViewModel: ObservableObject {
 
         do {
             let (_, jobId) = try await UploadService.shared.uploadShirtPhoto(image: image)
+
+            guard let jobId = jobId else {
+                throw NSError(domain: "CustomizerViewModel", code: 1,
+                            userInfo: [NSLocalizedDescriptionKey: "No job ID returned. Background processing may be disabled."])
+            }
+
             extractionProgress = "Starting extraction process..."
             extractionPercent = 0.15
 
