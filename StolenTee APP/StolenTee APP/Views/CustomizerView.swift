@@ -134,7 +134,9 @@ struct CustomizerView: View {
             ZStack {
                 Color(UIColor.systemGray6)
 
-                VStack(spacing: 12) {
+                VStack(spacing: 0) {
+                    Spacer()
+
                     if let bgImage = backgroundImage {
                         DesignCanvasView(
                             backgroundImage: bgImage,
@@ -151,6 +153,8 @@ struct CustomizerView: View {
                             .frame(height: 400)
                     }
 
+                    Spacer()
+
                     // User instructions
                     if !canvasLayers.isEmpty {
                         if selectedLayerId != nil {
@@ -161,6 +165,7 @@ struct CustomizerView: View {
                                 .padding(.vertical, 8)
                                 .background(Color.black.opacity(0.8))
                                 .cornerRadius(20)
+                                .padding(.bottom, 12)
                         } else {
                             Text("Tap artwork to edit")
                                 .font(.caption)
@@ -169,39 +174,35 @@ struct CustomizerView: View {
                                 .padding(.vertical, 8)
                                 .background(Color.gray.opacity(0.6))
                                 .cornerRadius(20)
+                                .padding(.bottom, 12)
                         }
                     }
+
+                    // View switcher - Front/Back/Neck (Compact style at bottom)
+                    HStack(spacing: 0) {
+                        ForEach([CanvasView.front, CanvasView.back, CanvasView.neck], id: \.self) { view in
+                            Button {
+                                viewModel.currentView = view
+                            } label: {
+                                Text(view.displayName.uppercased())
+                                    .font(.caption)
+                                    .fontWeight(viewModel.currentView == view ? .bold : .medium)
+                                    .foregroundColor(viewModel.currentView == view ? .white : .gray)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+                                    .background(viewModel.currentView == view ? Color.black : Color.clear)
+                            }
+                        }
+                    }
+                    .background(Color.white.opacity(0.95))
+                    .cornerRadius(8)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 16)
                 }
                 .padding(.vertical, 20)
             }
             .frame(height: 480)
             .cornerRadius(20)
-
-            // View switcher - Front/Back (Large 48pt touch targets)
-            HStack(spacing: 12) {
-                ForEach([CanvasView.front, CanvasView.back], id: \.self) { view in
-                    Button {
-                        viewModel.currentView = view
-                    } label: {
-                        Text(view.displayName)
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(viewModel.currentView == view ? .white : .primary)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 48)
-                            .background(viewModel.currentView == view ? Color.black : Color.white)
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(
-                                        viewModel.currentView == view ? Color.black : Color.gray.opacity(0.3),
-                                        lineWidth: viewModel.currentView == view ? 2 : 1
-                                    )
-                            )
-                    }
-                }
-            }
-            .padding(.horizontal, 20)
         }
     }
 
@@ -571,13 +572,26 @@ struct CustomizerView: View {
     }
 
     private func updateBackgroundImage() {
-        // Load actual product image from Supabase
-        // product.images array: [0] = front, [1] = back, [2] = neck (optional)
-        let imageIndex = viewModel.currentView == .back ? 1 : 0
+        // Construct image URL based on selected color and current view
+        // Format: {color}-{view}.png (e.g., "black-front.png", "navy-back.png")
+        let colorName = selectedColor.lowercased()
+        let viewName: String
 
-        guard product.images.count > imageIndex,
-              let imageURL = URL(string: product.images[imageIndex]) else {
-            // Fallback to placeholder if no image available
+        switch viewModel.currentView {
+        case .front:
+            viewName = "front"
+        case .back:
+            viewName = "back"
+        case .neck:
+            viewName = "neck"
+        }
+
+        let baseURL = "https://dntnjlodfcojzgovikic.supabase.co/storage/v1/object/public/product-images/mockups"
+        let imageFileName = "\(colorName)-\(viewName).png"
+        let fullURL = "\(baseURL)/\(imageFileName)"
+
+        guard let imageURL = URL(string: fullURL) else {
+            // Fallback to placeholder if URL construction fails
             createPlaceholderBackground()
             return
         }
@@ -591,9 +605,12 @@ struct CustomizerView: View {
                         backgroundImage = loadedImage
                         updateCanvasBounds(for: loadedImage.size)
                     }
+                } else {
+                    // Image data couldn't be converted to UIImage
+                    createPlaceholderBackground()
                 }
             } catch {
-                print("Failed to load product image: \(error)")
+                print("Failed to load product image from \(fullURL): \(error)")
                 createPlaceholderBackground()
             }
         }
@@ -624,7 +641,16 @@ struct CustomizerView: View {
                 context.cgContext.stroke(rect)
             }
 
-            let label = viewModel.currentView == .back ? "BACK" : "FRONT"
+            let label: String
+            switch viewModel.currentView {
+            case .front:
+                label = "FRONT"
+            case .back:
+                label = "BACK"
+            case .neck:
+                label = "NECK"
+            }
+
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 24, weight: .light),
                 .foregroundColor: selectedColor.lowercased() == "white" ? UIColor.black.withAlphaComponent(0.1) : UIColor.white.withAlphaComponent(0.1)

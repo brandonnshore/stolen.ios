@@ -77,26 +77,78 @@ struct Asset: Codable, Identifiable {
 
     enum CodingKeys: String, CodingKey {
         case id, hash, width, height, dpi, metadata
-        case ownerType
-        case ownerId
-        case fileUrl
-        case fileType
-        case fileSize
-        case originalName
-        case createdAt
-        case updatedAt
+        case ownerType = "owner_type"
+        case ownerId = "owner_id"
+        case fileUrl = "file_url"
+        case fileType = "file_type"
+        case fileSize = "file_size"
+        case originalName = "original_name"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
     }
 }
 
 struct UploadResponse: Codable {
     let asset: Asset
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Check if response has "success" wrapper
+        if (try? container.decode(Bool.self, forKey: .success)) != nil {
+            // Backend wraps in {success: true, data: {asset: ...}}
+            let data = try container.decode(UploadDataWrapper.self, forKey: .data)
+            self.asset = data.asset
+        } else {
+            // Direct format {asset: ...}
+            self.asset = try container.decode(Asset.self, forKey: .asset)
+        }
+    }
+
+    private struct UploadDataWrapper: Codable {
+        let asset: Asset
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case success
+        case data
+        case asset
+    }
 }
 
 struct ShirtPhotoUploadResponse: Codable {
     let asset: Asset
     let jobId: String
 
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Check if response has "success" wrapper
+        if (try? container.decode(Bool.self, forKey: .success)) != nil {
+            // Backend wraps in {success: true, data: {asset: ..., jobId: ...}}
+            let data = try container.decode(ShirtPhotoDataWrapper.self, forKey: .data)
+            self.asset = data.asset
+            self.jobId = data.jobId
+        } else {
+            // Direct format {asset: ..., jobId: ...}
+            self.asset = try container.decode(Asset.self, forKey: .asset)
+            self.jobId = try container.decode(String.self, forKey: .jobId)
+        }
+    }
+
+    private struct ShirtPhotoDataWrapper: Codable {
+        let asset: Asset
+        let jobId: String
+
+        enum CodingKeys: String, CodingKey {
+            case asset
+            case jobId = "jobId"
+        }
+    }
+
     enum CodingKeys: String, CodingKey {
+        case success
+        case data
         case asset
         case jobId
     }
@@ -116,13 +168,13 @@ struct Job: Codable, Identifiable {
 
     enum CodingKeys: String, CodingKey {
         case id, status, logs
-        case userId
-        case uploadAssetId
-        case errorMessage
-        case resultData
-        case createdAt
-        case updatedAt
-        case completedAt
+        case userId = "user_id"
+        case uploadAssetId = "upload_asset_id"
+        case errorMessage = "error_message"
+        case resultData = "result_data"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case completedAt = "completed_at"
     }
 }
 
@@ -132,13 +184,80 @@ struct JobResultData: Codable {
     let maskAssetId: String?
 
     enum CodingKeys: String, CodingKey {
-        case whiteBackgroundAssetId
-        case transparentAssetId
-        case maskAssetId
+        case whiteBackgroundAssetId = "white_background_asset_id"
+        case transparentAssetId = "transparent_asset_id"
+        case maskAssetId = "mask_asset_id"
     }
 }
 
+// Backend response wrapper
+struct JobResponseWrapper: Codable {
+    let success: Bool
+    let job: JobWithAssets
+}
+
+// Job data with embedded assets array
+struct JobWithAssets: Codable {
+    let id: String
+    let userId: String?
+    let uploadAssetId: String
+    let status: String
+    let logs: String?
+    let errorMessage: String?
+    let resultData: JobResultData?
+    let createdAt: Date?
+    let updatedAt: Date?
+    let completedAt: Date?
+    let assets: [Asset]?
+
+    enum CodingKeys: String, CodingKey {
+        case id, status, logs, assets
+        case userId = "user_id"
+        case uploadAssetId = "upload_asset_id"
+        case errorMessage = "error_message"
+        case resultData = "result_data"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case completedAt = "completed_at"
+    }
+}
+
+// For backwards compatibility, keep JobResponse but make it extract from the wrapper
 struct JobResponse: Codable {
     let job: Job
     let assets: [Asset]?
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Try to decode as wrapper format first (new format from backend)
+        if let success = try? container.decode(Bool.self, forKey: .success) {
+            let jobWithAssets = try container.decode(JobWithAssets.self, forKey: .jobKey)
+
+            // Convert JobWithAssets to Job
+            self.job = Job(
+                id: jobWithAssets.id,
+                userId: jobWithAssets.userId,
+                uploadAssetId: jobWithAssets.uploadAssetId,
+                status: jobWithAssets.status,
+                logs: jobWithAssets.logs,
+                errorMessage: jobWithAssets.errorMessage,
+                resultData: jobWithAssets.resultData,
+                createdAt: jobWithAssets.createdAt,
+                updatedAt: jobWithAssets.updatedAt,
+                completedAt: jobWithAssets.completedAt
+            )
+            self.assets = jobWithAssets.assets
+        } else {
+            // Fallback to old format (if backend returns different structure)
+            self.job = try container.decode(Job.self, forKey: .jobKey)
+            self.assets = try container.decodeIfPresent([Asset].self, forKey: .assets)
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case success
+        case jobKey = "job"
+        case assets
+    }
 }
