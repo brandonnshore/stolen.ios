@@ -170,9 +170,26 @@ class APIClient {
 
             switch httpResponse.statusCode {
             case 200...299:
+                // Debug: Print raw response
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("🔍 Upload Response from \(url):")
+                    print(jsonString.prefix(1000)) // First 1000 chars
+                }
+
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                return try decoder.decode(T.self, from: data)
+                decoder.dateDecodingStrategy = .iso8601
+                do {
+                    let decoded = try decoder.decode(T.self, from: data)
+                    print("✅ Successfully decoded upload response")
+                    return decoded
+                } catch {
+                    print("❌ Upload decoding error: \(error)")
+                    if let jsonString = String(data: data, encoding: .utf8) {
+                        print("Raw response was: \(jsonString)")
+                    }
+                    throw APIError.decodingError(error)
+                }
 
             case 401:
                 throw APIError.unauthorized
