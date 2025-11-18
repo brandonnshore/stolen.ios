@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import AuthenticationServices
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -74,17 +75,44 @@ class AuthViewModel: ObservableObject {
         isAuthenticated = false
     }
 
-    // MARK: - OAuth (Stub methods - to be implemented)
+    // MARK: - OAuth Methods
     func loginWithGoogle() async throws {
-        // TODO: Implement Google OAuth
-        throw NSError(domain: "AuthViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "Google Sign-In not yet implemented"])
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let user = try await AuthService.shared.loginWithGoogle()
+            currentUser = user
+            isAuthenticated = true
+        } catch {
+            errorMessage = error.localizedDescription
+            throw error
+        }
+
+        isLoading = false
     }
 
     func handleSignInWithApple(_ request: Any) {
-        // TODO: Implement Apple Sign-In
+        guard let request = request as? ASAuthorizationAppleIDRequest else { return }
+        request.requestedScopes = [.fullName, .email]
     }
 
     func handleSignInWithAppleCompletion(_ authorization: Any) {
-        // TODO: Implement Apple Sign-In completion
+        guard let authorization = authorization as? ASAuthorization else { return }
+
+        Task {
+            isLoading = true
+            errorMessage = nil
+
+            do {
+                let user = try await AuthService.shared.loginWithApple(authorization: authorization)
+                currentUser = user
+                isAuthenticated = true
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+
+            isLoading = false
+        }
     }
 }

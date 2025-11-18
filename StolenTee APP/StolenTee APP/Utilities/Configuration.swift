@@ -23,10 +23,8 @@ enum Configuration {
     }()
 
     // MARK: - Supabase Configuration (for OAuth)
-    // TODO: Get these from your Supabase project settings at https://supabase.com/dashboard
-    // Navigate to: Settings > API > Project URL and anon/public key
-    static let supabaseURL = "https://your-project.supabase.co" // TODO: Add your Supabase URL
-    static let supabaseAnonKey = "your_supabase_anon_key" // TODO: Add your Supabase anon key
+    static let supabaseURL = "https://dntnjlodfcojzgovikic.supabase.co"
+    static let supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudG5qbG9kZmNvanpnb3Zpa2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MDgyNjMsImV4cCI6MjA3ODQ4NDI2M30.8YY5uyCsDGNWw-5KWE_1x55konvXd3N0fTyobr5N1k4"
 
     // MARK: - App URL Scheme (for OAuth callbacks)
     // This should match the URL scheme configured in your Info.plist
