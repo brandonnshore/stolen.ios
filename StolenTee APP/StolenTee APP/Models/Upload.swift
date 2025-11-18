@@ -172,7 +172,7 @@ struct ShirtPhotoUploadResponse: Codable {
 struct Job: Codable, Identifiable {
     let id: String
     let userId: String?
-    let uploadAssetId: String
+    let uploadAssetId: String?
     let status: String // "queued", "running", "done", "error"
     let logs: String?
     let errorMessage: String?
@@ -215,7 +215,7 @@ struct JobResponseWrapper: Codable {
 struct JobWithAssets: Codable {
     let id: String
     let userId: String?
-    let uploadAssetId: String
+    let uploadAssetId: String?
     let status: String
     let logs: String?
     let errorMessage: String?
