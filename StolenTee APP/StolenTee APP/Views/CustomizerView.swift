@@ -172,43 +172,41 @@ struct CustomizerView: View {
                     }
                 }
 
-                // iOS Glass Morphism View Selector at bottom
+                // Compact pill view selector at bottom (Front/Back only)
                 VStack {
                     Spacer()
 
-                    HStack(spacing: 0) {
-                        ForEach([CanvasView.front, CanvasView.back, CanvasView.neck], id: \.self) { view in
+                    HStack(spacing: 4) {
+                        ForEach([CanvasView.front, CanvasView.back], id: \.self) { view in
                             Button {
-                                withAnimation(.easeInOut(duration: 0.2)) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                     viewModel.currentView = view
                                 }
                             } label: {
-                                Text(view.displayName.uppercased())
-                                    .font(.system(size: 12, weight: viewModel.currentView == view ? .semibold : .medium))
-                                    .foregroundColor(viewModel.currentView == view ? .primary : .secondary)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 12)
+                                Text(view.displayName)
+                                    .font(.system(size: 13, weight: viewModel.currentView == view ? .semibold : .medium))
+                                    .foregroundColor(viewModel.currentView == view ? .white : .primary)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 8)
                                     .background(
-                                        ZStack {
+                                        Group {
                                             if viewModel.currentView == view {
-                                                // Active tab with subtle background
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .fill(Color.white.opacity(0.8))
-                                                    .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                                                // Active: Black pill
+                                                Capsule()
+                                                    .fill(Color.black)
                                             }
                                         }
                                     )
-                                    .contentShape(Rectangle())
+                                    .contentShape(Capsule())
                             }
                             .buttonStyle(.plain)
                         }
                     }
                     .padding(4)
                     .background(.ultraThinMaterial)
-                    .cornerRadius(14)
-                    .shadow(color: Color.black.opacity(0.12), radius: 16, x: 0, y: 4)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    .clipShape(Capsule())
+                    .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
+                    .padding(.bottom, 16)
                 }
             }
         }
