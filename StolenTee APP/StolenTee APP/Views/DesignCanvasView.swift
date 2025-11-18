@@ -17,17 +17,9 @@ struct CanvasImageLayer: Identifiable {
         self.scale = scale
         self.rotation = rotation
 
-        // Calculate initial size to fit within max bounds
-        let aspectRatio = image.size.width / image.size.height
-        var width = CanvasConfig.artworkMaxWidth
-        var height = width / aspectRatio
-
-        if height > CanvasConfig.artworkMaxHeight {
-            height = CanvasConfig.artworkMaxHeight
-            width = height * aspectRatio
-        }
-
-        self.size = CGSize(width: width, height: height)
+        // Use the actual image size (preserve full resolution for printing)
+        // The displayScale will handle visual sizing
+        self.size = image.size
     }
 }
 
@@ -130,9 +122,9 @@ class CanvasUIView: UIView {
             var layer = layers[index]
             let newScale = initialScale * gesture.scale
 
-            // Constrain scale
-            let minScale: CGFloat = CanvasConfig.artworkMinSize / max(layer.size.width, layer.size.height)
-            let maxScale: CGFloat = CanvasConfig.artworkMaxResize / max(layer.size.width, layer.size.height)
+            // Allow wide range of scaling: 0.1x to 3x of display size
+            let minScale: CGFloat = 0.05
+            let maxScale: CGFloat = 5.0
             layer.scale = min(max(newScale, minScale), maxScale)
 
             layers[index] = layer
@@ -208,30 +200,30 @@ class CanvasUIView: UIView {
     }
 
     private func constrainPosition(_ position: CGPoint, for layer: CanvasImageLayer) -> CGPoint {
+        // Allow logo to move anywhere on canvas
+        // Only keep it mostly visible (at least 25% of the logo must be on screen)
         let scaledSize = CGSize(
             width: layer.size.width * layer.scale,
             height: layer.size.height * layer.scale
         )
 
+        let quarterWidth = scaledSize.width * 0.25
+        let quarterHeight = scaledSize.height * 0.25
         let halfWidth = scaledSize.width / 2
         let halfHeight = scaledSize.height / 2
 
         var constrainedX = position.x
         var constrainedY = position.y
 
-        // Constrain to bounds
-        if position.x - halfWidth < bounds.minX {
-            constrainedX = bounds.minX + halfWidth
-        }
-        if position.x + halfWidth > bounds.maxX {
-            constrainedX = bounds.maxX - halfWidth
-        }
-        if position.y - halfHeight < bounds.minY {
-            constrainedY = bounds.minY + halfHeight
-        }
-        if position.y + halfHeight > bounds.maxY {
-            constrainedY = bounds.maxY - halfHeight
-        }
+        // Very relaxed bounds - allow logo to be mostly off-screen
+        // Just keep at least 25% visible
+        let minX = bounds.minX - halfWidth + quarterWidth
+        let maxX = bounds.maxX + halfWidth - quarterWidth
+        let minY = bounds.minY - halfHeight + quarterHeight
+        let maxY = bounds.maxY + halfHeight - quarterHeight
+
+        constrainedX = min(max(position.x, minX), maxX)
+        constrainedY = min(max(position.y, minY), maxY)
 
         return CGPoint(x: constrainedX, y: constrainedY)
     }
