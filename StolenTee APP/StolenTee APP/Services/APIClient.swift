@@ -90,7 +90,7 @@ class APIClient {
                     }
 
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    // Note: Don't use convertFromSnakeCase because models have explicit CodingKeys
                     decoder.dateDecodingStrategy = .iso8601
                     let decoded = try decoder.decode(T.self, from: data)
                     print("✅ Successfully decoded response")
