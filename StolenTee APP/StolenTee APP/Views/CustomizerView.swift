@@ -761,12 +761,10 @@ struct CustomizerView: View {
 
     private func handleExtractedAssets(_ assets: [Asset]) {
         guard let transparentAsset = assets.first(where: { asset in
-            asset.metadata?["type"]?.value as? String == "transparent"
+            asset.kind == "transparent"  // Fixed: Use kind instead of metadata
         }) else {
             return
         }
-
-        viewModel.addAssetToCanvas(transparentAsset)
 
         // Load extracted image from Supabase
         if let url = URL(string: transparentAsset.fileUrl) {
@@ -776,17 +774,44 @@ struct CustomizerView: View {
                     let centerX = canvasBounds.width / 2
                     let centerY = canvasBounds.height / 2
 
+                    // Scale down the image to a reasonable size (30% of canvas width)
+                    let imageAspectRatio = image.size.width / image.size.height
+                    let targetWidth = canvasBounds.width * 0.3
+                    let targetHeight = targetWidth / imageAspectRatio
+                    let initialScale = targetWidth / image.size.width
+
                     let layer = CanvasImageLayer(
                         id: UUID().uuidString,
                         image: image,
                         position: CGPoint(x: centerX, y: centerY),
-                        scale: 1.0,
+                        scale: initialScale,  // Smaller, reasonable scale
                         rotation: 0
                     )
 
                     await MainActor.run {
+                        // Add to View's canvas layers
                         canvasLayers.append(layer)
                         selectedLayerId = layer.id
+
+                        // Also sync to ViewModel with centered position
+                        let canvasObj = CanvasObject(
+                            id: layer.id,
+                            type: "image",
+                            x: centerX,
+                            y: centerY,
+                            width: targetWidth,
+                            height: targetHeight,
+                            rotation: 0,
+                            scaleX: initialScale,
+                            scaleY: initialScale,
+                            imageUrl: transparentAsset.fileUrl,
+                            text: nil,
+                            fontFamily: nil,
+                            fontSize: nil,
+                            fill: nil,
+                            stroke: nil
+                        )
+                        viewModel.canvasObjects.append(canvasObj)
                     }
                 }
             }

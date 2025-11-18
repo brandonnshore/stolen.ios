@@ -100,13 +100,11 @@ class CustomizerViewModel: ObservableObject {
                     if let resultAssets = assets {
                         extractedAssets = resultAssets
 
-                        // Auto-select transparent version and add to canvas
+                        // Auto-select transparent version (View will handle canvas positioning)
                         if let transparentAsset = resultAssets.first(where: { $0.kind == "transparent" }) {
                             selectedAsset = transparentAsset
-                            addAssetToCanvas(transparentAsset)
                         } else if let firstAsset = resultAssets.first {
                             selectedAsset = firstAsset
-                            addAssetToCanvas(firstAsset)
                         }
                     }
 
