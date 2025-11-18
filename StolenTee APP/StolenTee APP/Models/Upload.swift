@@ -64,7 +64,7 @@ struct Asset: Codable, Identifiable {
     let ownerType: String?
     let ownerId: String?
     let fileUrl: String
-    let fileType: String
+    let fileType: String?
     let fileSize: Int?
     let originalName: String?
     let hash: String?
