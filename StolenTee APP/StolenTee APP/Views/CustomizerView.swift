@@ -10,6 +10,7 @@ struct CustomizerView: View {
     let variants: [ProductVariant]
 
     @StateObject private var viewModel = CustomizerViewModel()
+    @EnvironmentObject var cartViewModel: CartViewModel
     @State private var selectedColor: String = ""
     @State private var selectedSize: String = ""
     @State private var quantity: Int = 1
@@ -822,6 +823,51 @@ struct CustomizerView: View {
             showingAlert = true
             return
         }
+
+        // Find the variant that matches selected color and size
+        guard let variant = variants.first(where: {
+            $0.color.lowercased() == selectedColor.lowercased() &&
+            $0.size == selectedSize
+        }) else {
+            alertMessage = "Selected variant not available"
+            showingAlert = true
+            return
+        }
+
+        // Create customization spec from canvas objects
+        let artworkAssets = viewModel.canvasObjects
+            .compactMap { $0.imageUrl }
+            .filter { !$0.isEmpty }
+
+        let placements = viewModel.canvasObjects.map { obj in
+            Placement(
+                location: viewModel.currentView.rawValue,
+                x: obj.x,
+                y: obj.y,
+                width: obj.width,
+                height: obj.height,
+                rotation: obj.rotation,
+                artworkAssetId: obj.imageUrl ?? ""
+            )
+        }
+
+        let customSpec = CustomizationSpec(
+            method: "dtg", // Direct to garment printing
+            placements: placements,
+            textElements: nil,
+            artworkAssets: artworkAssets,
+            notes: nil
+        )
+
+        // Add to cart
+        cartViewModel.addItem(
+            variant: variant,
+            product: product,
+            quantity: quantity,
+            customSpec: customSpec,
+            mockupUrl: nil, // Could generate a preview here
+            unitPrice: Double(variant.basePrice) ?? 0.0
+        )
 
         showToastMessage("Added to cart!", type: .success)
     }
