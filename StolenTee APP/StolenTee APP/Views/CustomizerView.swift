@@ -846,8 +846,10 @@ struct CustomizerView: View {
                 y: obj.y,
                 width: obj.width,
                 height: obj.height,
-                rotation: obj.rotation,
-                artworkAssetId: obj.imageUrl ?? ""
+                artworkId: obj.imageUrl,
+                textElementId: nil,
+                colors: [],
+                rotation: obj.rotation
             )
         }
 
