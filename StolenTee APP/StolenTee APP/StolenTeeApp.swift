@@ -62,21 +62,25 @@ struct StolenTeeApp: App {
             let supabaseId: String
         }
 
-        struct OAuthSyncResponse: Codable {
+        struct OAuthSyncResponseWrapper: Codable {
+            let data: OAuthSyncData
+        }
+
+        struct OAuthSyncData: Codable {
             let user: User
             let token: String
         }
 
         let request = OAuthSyncRequest(email: email, name: name, supabaseId: supabaseId)
-        let response: OAuthSyncResponse = try await APIClient.shared.request(
+        let wrapper: OAuthSyncResponseWrapper = try await APIClient.shared.request(
             endpoint: Configuration.Endpoint.oauthSync,
             method: .post,
             body: request
         )
 
         // Save token to keychain
-        KeychainHelper.shared.saveToken(response.token)
+        KeychainHelper.shared.saveToken(wrapper.data.token)
 
-        return response.user
+        return wrapper.data.user
     }
 }
