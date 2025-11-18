@@ -885,13 +885,17 @@ struct CustomizerView: View {
             notes: nil
         )
 
+        // Use product mockup image as preview
+        // (In future, could generate composite with logo overlay)
+        let mockupUrl = product.images.first
+
         // Add to cart
         cartViewModel.addItem(
             variant: variant,
             product: product,
             quantity: quantity,
             customSpec: customSpec,
-            mockupUrl: nil, // Could generate a preview here
+            mockupUrl: mockupUrl,
             unitPrice: Double(variant.basePrice) ?? 0.0
         )
 
