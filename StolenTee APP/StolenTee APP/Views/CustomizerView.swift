@@ -20,6 +20,7 @@ struct CustomizerView: View {
     @State private var selectedLayerId: String?
     @State private var backgroundImage: UIImage?
     @State private var canvasBounds: CGRect = .zero
+    @State private var canvasView: CanvasUIView?
 
     // Photo picker
     @State private var selectedPhoto: PhotosPickerItem?
@@ -145,6 +146,9 @@ struct CustomizerView: View {
                             bounds: canvasBounds,
                             onLayerUpdate: { layer in
                                 updateLayerInViewModel(layer)
+                            },
+                            onCanvasViewCreated: { view in
+                                canvasView = view
                             }
                         )
                         .frame(width: canvasBounds.width, height: canvasBounds.height)
@@ -885,9 +889,8 @@ struct CustomizerView: View {
             notes: nil
         )
 
-        // Use product mockup image as preview
-        // (In future, could generate composite with logo overlay)
-        let mockupUrl = product.images.first
+        // Capture canvas preview (logo on mockup)
+        let mockupUrl = captureCanvasPreview()
 
         // Add to cart
         cartViewModel.addItem(
@@ -900,6 +903,25 @@ struct CustomizerView: View {
         )
 
         showToastMessage("Added to cart!", type: .success)
+    }
+
+    private func captureCanvasPreview() -> String? {
+        guard let canvasView = canvasView,
+              let capturedImage = canvasView.captureImage(pixelRatio: 2.0) else {
+            return nil
+        }
+
+        // Save to temporary file
+        let tempDir = FileManager.default.temporaryDirectory
+        let filename = "cart_preview_\(UUID().uuidString).jpg"
+        let fileURL = tempDir.appendingPathComponent(filename)
+
+        if let jpegData = capturedImage.jpegData(compressionQuality: 0.8) {
+            try? jpegData.write(to: fileURL)
+            return fileURL.absoluteString
+        }
+
+        return nil
     }
 
     private func showToastMessage(_ message: String, type: ToastView.ToastType = .info) {

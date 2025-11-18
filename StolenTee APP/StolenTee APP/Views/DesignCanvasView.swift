@@ -348,6 +348,7 @@ struct DesignCanvasView: UIViewRepresentable {
     @Binding var selectedLayerId: String?
     let bounds: CGRect
     let onLayerUpdate: ((CanvasImageLayer) -> Void)?
+    let onCanvasViewCreated: ((CanvasUIView) -> Void)?
 
     func makeUIView(context: Context) -> CanvasUIView {
         let view = CanvasUIView()
@@ -359,6 +360,12 @@ struct DesignCanvasView: UIViewRepresentable {
                 selectedLayerId = layerId
             }
         }
+
+        // Notify parent that view is created
+        DispatchQueue.main.async {
+            onCanvasViewCreated?(view)
+        }
+
         return view
     }
 
