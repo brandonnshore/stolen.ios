@@ -90,7 +90,7 @@ class APIClient {
                     }
 
                     let decoder = JSONDecoder()
-                    // Note: Don't use convertFromSnakeCase because models have explicit CodingKeys
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     decoder.dateDecodingStrategy = .iso8601
                     let decoded = try decoder.decode(T.self, from: data)
                     print("✅ Successfully decoded response")
@@ -177,9 +177,8 @@ class APIClient {
                 }
 
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 decoder.dateDecodingStrategy = .iso8601
-                // Note: Don't use convertFromSnakeCase here because Asset model
-                // has explicit CodingKeys mappings
                 do {
                     let decoded = try decoder.decode(T.self, from: data)
                     print("✅ Successfully decoded upload response")

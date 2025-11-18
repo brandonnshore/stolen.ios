@@ -77,19 +77,7 @@ struct Asset: Codable, Identifiable {
     let kind: String?
     let jobId: String?
 
-    enum CodingKeys: String, CodingKey {
-        case id, hash, width, height, dpi, metadata
-        case ownerType = "owner_type"
-        case ownerId = "owner_id"
-        case fileUrl = "file_url"
-        case fileType = "file_type"
-        case fileSize = "file_size"
-        case originalName = "original_name"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case kind
-        case jobId = "job_id"
-    }
+    // No explicit CodingKeys - let convertFromSnakeCase handle it automatically
 }
 
 struct UploadResponse: Codable {
@@ -181,28 +169,15 @@ struct Job: Codable, Identifiable {
     let updatedAt: Date?
     let completedAt: Date?
 
-    enum CodingKeys: String, CodingKey {
-        case id, status, logs
-        case userId = "user_id"
-        case uploadAssetId = "upload_asset_id"
-        case errorMessage = "error_message"
-        case resultData = "result_data"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case completedAt = "completed_at"
-    }
+    // No explicit CodingKeys - let convertFromSnakeCase handle it automatically
 }
 
 struct JobResultData: Codable {
-    let whiteBackgroundAssetId: String?
+    let whiteBgAssetId: String?
+    let originalAssetId: String?
     let transparentAssetId: String?
-    let maskAssetId: String?
 
-    enum CodingKeys: String, CodingKey {
-        case whiteBackgroundAssetId = "white_background_asset_id"
-        case transparentAssetId = "transparent_asset_id"
-        case maskAssetId = "mask_asset_id"
-    }
+    // Note: resultData fields are already camelCase in backend, no conversion needed
 }
 
 // Backend response wrapper
@@ -225,16 +200,7 @@ struct JobWithAssets: Codable {
     let completedAt: Date?
     let assets: [Asset]?
 
-    enum CodingKeys: String, CodingKey {
-        case id, status, logs, assets
-        case userId = "user_id"
-        case uploadAssetId = "upload_asset_id"
-        case errorMessage = "error_message"
-        case resultData = "result_data"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case completedAt = "completed_at"
-    }
+    // No explicit CodingKeys - let convertFromSnakeCase handle it automatically
 }
 
 // For backwards compatibility, keep JobResponse but make it extract from the wrapper

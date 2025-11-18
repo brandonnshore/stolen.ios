@@ -582,6 +582,7 @@ struct CustomizerView: View {
     private func updateBackgroundImage() {
         // Construct image URL based on selected color and current view
         // Format: {color}-{view}.png (e.g., "black-front.png", "navy-back.png")
+        // For hoodies: hoodie-{color}-{view}.png (e.g., "hoodie-black-front.png")
         let colorName = selectedColor.lowercased()
         let viewName: String
 
@@ -594,8 +595,23 @@ struct CustomizerView: View {
             viewName = "neck"
         }
 
+        // Check if current product is a hoodie
+        let isHoodie = product.slug.lowercased().contains("hoodie")
+
         let baseURL = "https://dntnjlodfcojzgovikic.supabase.co/storage/v1/object/public/product-images/mockups"
-        let imageFileName = "\(colorName)-\(viewName).png"
+        let imageFileName: String
+        if isHoodie {
+            // Hoodies don't have neck view, and use "hoodie-" prefix
+            if viewName == "neck" {
+                // Fallback to front view for hoodies (they don't have neck view)
+                imageFileName = "hoodie-\(colorName)-front.png"
+            } else {
+                imageFileName = "hoodie-\(colorName)-\(viewName).png"
+            }
+        } else {
+            // T-shirts use simple color-view format
+            imageFileName = "\(colorName)-\(viewName).png"
+        }
         let fullURL = "\(baseURL)/\(imageFileName)"
 
         guard let imageURL = URL(string: fullURL) else {
